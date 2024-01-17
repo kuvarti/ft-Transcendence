@@ -1,0 +1,64 @@
+version: '3.8'
+
+services:
+  frontend:
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile
+    volumes:
+      - frontend:/usr/src/app
+    ports:
+      - "4200:4200"
+    restart: always
+    networks:
+      - app-network
+    # environment:
+    #   - ENV_FILE_LOCATION=../.env
+
+  backend:
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+    volumes:
+      - backend:/usr/src/app
+    ports:
+      - "3000:3000"
+    networks:
+      - app-network
+    # environment:
+    #   - ENV_FILE_LOCATION=../.env
+
+  # db:
+  #   build:
+  #     context: ./db
+  #     dockerfile: Dockerfile
+  #   volumes:
+  #     - ./db:/path/to/db
+  #   ports:
+  #     - "5432:5432"
+  #   environment:
+  #     - ENV_FILE_LOCATION=../.env
+  #   networks:
+  #     - app-network
+
+networks:
+  app-network:
+    name: app-network
+    driver: bridge
+
+volumes:
+  frontend:
+    name: frontendVolume
+    driver: local
+    driver_opts:
+      type: none
+      o: bind
+      device: ./frontend/volume
+  backend:
+    name: backendVolume
+    driver: local
+    driver_opts:
+      type: none
+      o: bind
+      device: ./backend/volume
+  db:
