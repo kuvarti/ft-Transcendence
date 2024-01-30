@@ -12,4 +12,5 @@ stop:
 
 clean:
 	docker-compose down -v
-	rm -rf ${VOLUMES}
+	docker volume rm -f backendVolume frontendVolume databaseVolume
+	sudo rm -rf ${VOLUMES}

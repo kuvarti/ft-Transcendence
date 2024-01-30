@@ -28,18 +28,20 @@ services:
     # environment:
     #   - ENV_FILE_LOCATION=../.env
 
-  # db:
-  #   build:
-  #     context: ./db
-  #     dockerfile: Dockerfile
-  #   volumes:
-  #     - ./db:/path/to/db
-  #   ports:
-  #     - "5432:5432"
-  #   environment:
-  #     - ENV_FILE_LOCATION=../.env
-  #   networks:
-  #     - app-network
+  db:
+    build:
+      context: ./db
+      dockerfile: Dockerfile
+    volumes:
+      - db:/var/lib/postgresql/data
+    ports:
+      - "5432:5432"
+    environment:
+      POSTGRES_DB: FtTranscendence
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgrespw
+    networks:
+      - app-network
 
 networks:
   app-network:
@@ -62,3 +64,9 @@ volumes:
       o: bind
       device: ./backend/volume
   db:
+    name: databaseVolume
+    driver: local
+    driver_opts:
+      type: none
+      o: bind
+      device: ./db/volume
