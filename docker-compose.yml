@@ -5,8 +5,11 @@ services:
     build:
       context: ./frontend
       dockerfile: Dockerfile
+      ssh:
+        default: ${SSH_AUTH_SOCK}
     volumes:
       - frontend:/usr/src/app
+      - ~/.ssh/id_ed25519:/root/.ssh/id_rsa:ro
     ports:
       - "4200:4200"
     restart: always
@@ -19,8 +22,11 @@ services:
     build:
       context: ./backend
       dockerfile: Dockerfile
+      ssh:
+        default: ${SSH_AUTH_SOCK}
     volumes:
       - backend:/usr/src/app
+      - ~/.ssh/id_ed25519:/root/.ssh/id_rsa:ro
     ports:
       - "3000:3000"
     networks:

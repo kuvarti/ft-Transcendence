@@ -1,8 +1,10 @@
+# syntax=docker/dockerfile:1.3
 FROM node:latest
 
 WORKDIR /usr/src/app
 
-RUN git clone https://github.com/Fatma-Ozturk/FtTranscendenceUI.git .
+RUN --mount=type=ssh git clone https://github.com/Fatma-Ozturk/FtTranscendenceUI.git .
+RUN chmod -R 777 /usr/src/app
 
 RUN npm install
 
