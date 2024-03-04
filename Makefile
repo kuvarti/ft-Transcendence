@@ -1,27 +1,20 @@
-VOLUMES= frontend/volume backend/volume db/volume
-COMMAND= docker-compose
+Volumepath= ./Database/volume
 
 all:
-	DOCKER_BUILDKIT=1
-	mkdir -p ${VOLUMES}
-	eval "$(ssh-agent -s)"
-	${COMMAND} up -d --build
+	mkdir -p ${Volumepath}
+	docker-compose up -d
 
 start:
-	${COMMAND} start
+	docker-compose start
 
 stop:
-	${COMMAND} stop
+	docker-compose stop
 
-log:
-	${COMMAND} logs
+down:
+	docker-compose down
 
-clean:
-	${COMMAND} down -v
-	docker volume rm -f backendVolume frontendVolume databaseVolume
-	sudo rm -rf ${VOLUMES}
+clean: down
+	rm -rf ${Volumepath}
 
 fclean: clean
 	docker system prune -a
-
-# nc -zv 127.0.0.1 5432 || echo "Postgres is not running"

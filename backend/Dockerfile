@@ -1,16 +1,28 @@
-# syntax=docker/dockerfile:1.3
-FROM node:latest
+FROM node:16 as builder
 
 WORKDIR /usr/src/app
 
-RUN --mount=type=ssh git clone https://github.com/enesozmert/ft-transcendence.git .
-RUN chmod -R 777 /usr/src/app
+COPY ./package*.json ./
+
+COPY ./project .
 
 RUN npm install
 
-COPY entrypoint.sh /usr/src/app/entrypoint.sh
-RUN chmod +x /usr/src/app/entrypoint.sh
+RUN npm install node-fetch
+RUN npm install form-data
 
-EXPOSE 3000
+RUN npm run build
 
-ENTRYPOINT ["/usr/src/app/entrypoint.sh"]
+# FROM nginx:alpine
+
+# RUN rm -rf /usr/share/nginx/html/*
+
+# COPY --from=builder /usr/src/app/dist /usr/share/nginx/html
+
+# COPY ./nginx.conf /etc/nginx/nginx.conf
+
+# EXPOSE 80
+
+# CMD ["nginx", "-g", "daemon off;"]
+
+CMD ["node", "dist/main.js"]

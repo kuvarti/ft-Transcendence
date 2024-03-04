@@ -3,40 +3,33 @@ version: '3.8'
 services:
   frontend:
     build:
-      context: ./frontend
+      context: ./Frontend
       dockerfile: Dockerfile
-      ssh:
-        default: ${SSH_AUTH_SOCK}
-    volumes:
-      - frontend:/usr/src/app
-      - ~/.ssh/id_ed25519:/root/.ssh/id_rsa:ro
     ports:
-      - "4200:4200"
+      - "80:80"
     restart: always
     networks:
       - app-network
-    # environment:
-    #   - ENV_FILE_LOCATION=../.env
+    environment:
+      NODE_ENV: production
 
   backend:
     build:
-      context: ./backend
+      context: ./Backend
       dockerfile: Dockerfile
-      ssh:
-        default: ${SSH_AUTH_SOCK}
-    volumes:
-      - backend:/usr/src/app
-      - ~/.ssh/id_ed25519:/root/.ssh/id_rsa:ro
+    depends_on:
+      - db
     ports:
       - "3000:3000"
     networks:
       - app-network
-    # environment:
-    #   - ENV_FILE_LOCATION=../.env
+    environment:
+      - NGINX_HOST=nginx
+      - NGINX_PORT=80
 
   db:
     build:
-      context: ./db
+      context: ./Database
       dockerfile: Dockerfile
     volumes:
       - db:/var/lib/postgresql/data
@@ -55,24 +48,10 @@ networks:
     driver: bridge
 
 volumes:
-  frontend:
-    name: frontendVolume
-    driver: local
-    driver_opts:
-      type: none
-      o: bind
-      device: ./frontend/volume
-  backend:
-    name: backendVolume
-    driver: local
-    driver_opts:
-      type: none
-      o: bind
-      device: ./backend/volume
   db:
     name: databaseVolume
     driver: local
     driver_opts:
       type: none
       o: bind
-      device: ./db/volume
+      device: ./Database/volume

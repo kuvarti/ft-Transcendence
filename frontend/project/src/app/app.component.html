@@ -1,0 +1,12 @@
+<div >
+	<div *ngIf="(isAuthBool$ | async) === false">
+	  <app-main-container *ngIf="(isAuthBool$ | async) === false"></app-main-container>
+	</div>
+	<div *ngIf="(isAuthBool$ | async) === true">
+	  <app-user-two-facontainer *ngIf="(isVerifContainerVisible$ | async) === false" ></app-user-two-facontainer>
+	  <app-user-login-container *ngIf="(isVerifContainerVisible$ | async) === true" ></app-user-login-container>
+	</div>
+  </div>
+
+  <ngx-spinner bdColor="rgba(255, 255, 255, 0.5)" template="<img src='https://media.tenor.com/On7kvXhzml4AAAAj/loading-gif.gif' />">
+</ngx-spinner>

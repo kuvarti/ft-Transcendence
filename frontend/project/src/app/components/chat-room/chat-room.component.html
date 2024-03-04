@@ -1,0 +1,29 @@
+<div class="d-flex justify-content-center align-items-center">
+  <!-- Canvas için div -->
+  <div style="position: relative;">
+    <canvas #myCanvas width="800" height="600"></canvas>
+
+    <!-- Mesaj gönderme formu -->
+    <form [formGroup]="chatMessageForm" class="message-form" *ngIf="isMuteVisible">
+      <div class="row">
+        <div class="d-flex justify-content-center align-items-center">
+          <div class="col-10">
+            <input type="text" class="w-100 pl-2 pr-2" placeholder="Enter your message"
+              (keydown.enter)="sendMessageClick()" (keydown)="onKeyDown($event)" (keyup)="onKeyUp($event)" pInputText
+              class="message-input" formControlName="message" />
+          </div>
+          <div class="col-2">
+            <p-button type="button" label="View Chat" (onClick)="toggleChatLog()" [style]="{'width':'auto'}" styleClass="p-button-outlined" severity="success"></p-button>
+          </div>
+        </div>
+      </div>
+    </form>
+  </div>
+
+  <!-- Sohbet gösterimi için div -->
+  <div *ngIf="isChatLogActive">
+    <app-chat [chatRoomAccessId]="chatRoomAccessId" [messages]="messages" (messageInput)="chatRoomMessageInput($event)"
+      (sendMessageClickOutput)="sendMessageClick()" (updateScrollbarOutput)="updateScrollBar($event)"></app-chat>
+  </div>
+
+</div>

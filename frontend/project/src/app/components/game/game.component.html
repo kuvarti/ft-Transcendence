@@ -1,0 +1,14 @@
+<div class="d-flex justify-content-center align-self-center">
+	<canvas #gameCanvas class="game-canvas"></canvas>
+</div>
+
+<div class="card flex justify-content-center">
+    <p-dialog header="Oyun Bilgi" [(visible)]="visibleGameDisconnectPopup" [modal]="true" [style]="{ width: '50vw' }" [draggable]="false" [resizable]="false">
+        <p class="m-0">
+            {{gameMessage}}
+        </p>
+        <div class="mt-2">
+            <p-button label="Gerçek hayata geri dön." styleClass="p-button-outlined" (onClick)="navigeMainPage()"></p-button>
+        </div>
+    </p-dialog>
+</div>
