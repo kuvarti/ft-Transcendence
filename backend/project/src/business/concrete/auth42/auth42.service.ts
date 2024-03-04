@@ -14,8 +14,6 @@ import { UserForLoginDto } from 'src/entities/dto/userForLoginDto';
 import { HashingHelper } from 'src/core/utilities/security/hashing/hashingHelper';
 import { JwtHelper } from 'src/core/utilities/security/jwt/jwtHelper';
 import { UserInfo } from 'src/entities/concrete/userInfo.entity';
-import * as FormData from 'form-data';
-import fetch from 'node-fetch'; // Eğer node-fetch kullanıyorsanız
 
 @Injectable()
 export class Auth42Service {

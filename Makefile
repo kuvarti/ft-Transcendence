@@ -1,4 +1,4 @@
-Volumepath= ./Database/volume
+Volumepath= ./Database/volume ./Frontend/volume
 
 all:
 	mkdir -p ${Volumepath}
